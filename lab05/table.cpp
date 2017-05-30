@@ -11,7 +11,8 @@ Table::Table(unsigned int max_entries){
 }
 
 Table::Table(unsigned int entries, std::istream& input){
-    this->hashtable.reserve(entries);
+    std::vector<Entry> basicEntryVector;
+    this->hashtable.resize(entries, basicEntryVector);
     this->CAPACITY = entries;
     unsigned int key;
     std::string data, first_word, rest_of_line;
@@ -42,7 +43,6 @@ void Table::put(unsigned int key, std::string data){
         }
         index++;
     }
-
     if(!addedEntry){
         this->hashtable[tableKey].resize(size+1, Entry());
         this->hashtable[tableKey][index].set_data(data);
@@ -61,7 +61,6 @@ bool Table::remove(unsigned int key){
     unsigned int tableKey = hash(key);
     unsigned int index = 0;
     unsigned int size = this->hashtable[tableKey].size();
-    cout << tableKey << size <<  key << endl;
     while(index < size){
         if(keyMatch(key, tableKey, index)){
             this->hashtable[tableKey][index].set_data(this->hashtable[tableKey][size-1].get_data());
@@ -95,7 +94,12 @@ return data;
 }
 
 bool Table::keyMatch(unsigned int key, unsigned int tableKey, unsigned int index) const{
-    return(key == this->hashtable[tableKey][index].get_key());
+    if(index >= this->hashtable[tableKey].size()){
+        return false;
+    }
+    else{
+        return(key == this->hashtable[tableKey][index].get_key());
+    }
 }
 
 ostream& operator<< (std::ostream& out, const Table& t){
