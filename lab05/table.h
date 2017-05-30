@@ -35,9 +35,10 @@ public:
     //FRIEND OPERATOR
     friend std::ostream& operator<< (std::ostream& out, const Table& t);
 
-private:
     //helper functions
     unsigned int hash(unsigned int key) const;
+private:
+
     //data
     std::vector<std::vector<Entry> > hashtable;
     unsigned int CAPACITY;

@@ -27,7 +27,7 @@ Table::Table(unsigned int entries, std::istream& input){
 //MANIPULATING MEMBER FUNCTIONS
 void Table::put(unsigned int key, std::string data){
     unsigned int tableKey;
-    tableKey = this->hash(key);
+    tableKey = hash(key);
     unsigned int index = 0;
     unsigned int size;
     size = this->hashtable[tableKey].size();
@@ -58,9 +58,10 @@ void Table::put(Entry e){
 }
 
 bool Table::remove(unsigned int key){
-    unsigned int tableKey = this->hash(key);
+    unsigned int tableKey = hash(key);
     unsigned int index = 0;
     unsigned int size = this->hashtable[tableKey].size();
+    cout << tableKey << size <<  key << endl;
     while(index < size){
         if(keyMatch(key, tableKey, index)){
             this->hashtable[tableKey][index].set_data(this->hashtable[tableKey][size-1].get_data());
@@ -69,6 +70,7 @@ bool Table::remove(unsigned int key){
             return true;
             break;
         }
+        index++;
     }
     return false;
 }
@@ -77,7 +79,7 @@ bool Table::remove(unsigned int key){
 std::string Table::get(unsigned int key) const{
     std::string data = "";
     unsigned int tableKey;
-    tableKey = this->hash(key);
+    tableKey = hash(key);
     unsigned int index = 0;
     unsigned int size = this->hashtable[tableKey].size();
 
