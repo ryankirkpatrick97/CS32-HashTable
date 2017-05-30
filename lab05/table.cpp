@@ -67,6 +67,7 @@ bool Table::remove(unsigned int key){
             this->hashtable[tableKey][index].set_key(this->hashtable[tableKey][size-1].get_key());
             this->hashtable[tableKey].pop_back();
             return true;
+            break;
         }
     }
     return false;
@@ -83,6 +84,7 @@ std::string Table::get(unsigned int key) const{
     while(index < size){
         if(keyMatch(key, tableKey, index)){
             data = this->hashtable[tableKey][index].get_data();
+            break;
         }
         index++;
     }
