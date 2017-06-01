@@ -25,6 +25,21 @@ Table::Table(unsigned int entries, std::istream& input){
     }
 }
 
+Table::Table(const Table& t){
+    this->hashtable = t.hashtable;
+    this->CAPACITY = t.CAPACITY;
+}
+
+Table::~Table(){
+    unsigned int tableKey = 0;
+
+    while(tableKey < this->CAPACITY){
+        this->hashtable[tableKey].clear();
+        tableKey++;
+    }
+    this->hashtable.clear();
+}
+
 //MANIPULATING MEMBER FUNCTIONS
 void Table::put(unsigned int key, std::string data){
     unsigned int tableKey;
@@ -122,6 +137,40 @@ ostream& operator<< (std::ostream& out, const Table& t){
         out << sortedTable[i] << endl;
     }
     return out;
+}
+
+Table& Table::operator=(const Table &t){
+    if (&t == this){
+        return (*this);
+    }
+    //Set back to base table if data already in table
+    if(!this->hashtable.empty()){
+        unsigned int outerSize = this->CAPACITY;
+        unsigned int tableKey = 0;
+        while(tableKey < outerSize){
+            this->hashtable[tableKey].clear();
+            tableKey++;
+        }
+        this->hashtable.clear();
+    }
+
+    //Set this to t
+    this->CAPACITY = t.CAPACITY;
+    std::vector<Entry> basicEntryVector;
+    this->hashtable.resize(this->CAPACITY,basicEntryVector);
+    unsigned int outerSize = t.CAPACITY;
+    unsigned int tableKey = 0;
+    while(tableKey < outerSize){
+        unsigned int innerSize = t.hashtable[tableKey].size();
+        unsigned int index = 0;
+        while(index < innerSize){
+            this->put(t.hashtable[tableKey][index]);
+            index++;
+        }
+        tableKey++;
+    }
+    
+    return (*this);
 }
 
 unsigned int Table::hash(unsigned int key) const{

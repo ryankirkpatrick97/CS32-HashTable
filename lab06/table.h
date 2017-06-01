@@ -14,7 +14,10 @@ public:
     //CONSTRUCTORS
     Table(unsigned int max_entries = 100);
     Table(unsigned int entries, std::istream& input);
+    Table(const Table &t);
 
+    //DECONSTRUCTOR
+    ~Table();
     //MANIPULATING MEMBER FUNCTIONS
 
     //puts an entry into the hashtable
@@ -34,6 +37,8 @@ public:
 
     //FRIEND OPERATOR
     friend std::ostream& operator<< (std::ostream& out, const Table& t);
+    //ASSIGNMENT OPERATOR
+    Table & operator=(const Table &t);
 
     //helper functions
     unsigned int hash(unsigned int key) const;
